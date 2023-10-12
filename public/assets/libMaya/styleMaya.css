@@ -1,0 +1,74 @@
+/**
+* Style ajouté pour Maya
+* Author: MD
+* https://mdbootstrap.com/docs/jquery/css/colors/
+*/
+
+/* personnalisation classes bootstrap */
+
+.bg-success {
+  background-color: #689f38 !important;
+}
+.btn-primary {
+  background-color: #689f38;
+  border-color: #2e7d32;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #2e7d32;   
+  border-color: #1b5e20;
+}
+
+.table-hover tbody tr:hover {
+  /*color: #2e7d32; */
+  font-weight: bolder;
+  background-color: #c5e1a5 ;
+}
+
+
+
+.page-link {
+  color: #689f38;
+}
+
+.page-item.active .page-link {
+  background-color: #689f38;
+}
+
+.page-item.disabled .page-link {
+  color: #689f38;
+}
+
+
+/* personnalisation html */
+body {
+  padding-top: 70px;
+}
+
+h1 {
+  text-align: center;
+    text-shadow: 2px 2px 5px #689f38;
+}
+
+/* classes Maya */
+
+.bg-entete {
+  background-color: #dcedc8;
+}
+
+.contenu {
+  background-color: #f1f8e9;
+  border: 2px solid #689f38;
+  border-radius: 6px;
+  line-height: 40px;
+  padding: 10px;
+ }
+ 
+.contenu-blanc {
+  background-color: white;
+  border: 2px solid #689f38;
+  border-radius: 6px;
+  line-height: 40px;
+  padding: 10px;
+ }

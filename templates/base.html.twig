@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {% block stylesheets %}
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="{{ asset('assets/lib/bootstrap-4.4.1-dist/css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('assets/libMaya/styleMaya.css') }}" />
+            <link href="{{ asset('assets/lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </head>
+    <body>
+    <nav class="navbar navbar-expand-md bg-success navbar-dark fixed-top">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">La ferme de Maya</a>
+
+        <!-- Toggler/collapsible Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Accueil</a>
+                </li>
+                        {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_categorie')}}">Catégories</a>
+                </li>
+            {% endif %}
+        {% endif %}
+                <li class="nav-item ">
+                    <a class="nav-link" href="#">Produits</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Recettes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Commandes</a>
+                </li>
+                <!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Statistiques
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Link 1</a>
+                        <a class="dropdown-item" href="#">Link 2</a>
+                        <a class="dropdown-item" href="#">Link 3</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    {#    si un utilisateur existe (et est donc connecté)    #}
+                    {% if app.user %}
+                        <li><a class="nav-link" href="{{ path('app_logout')}}">Se déconnecter</a></li>
+                    {% else %}
+                        <li><a class="nav-link" href="{{ path('app_login')}}">Se connecter</a></li>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+        {% if app.user %}
+            <span class="navbar-brand pull-right">{{ app.user.prenom}} {{ app.user.nom }}</span>
+        {% endif %}
+
+    </nav>
+    <div class="container-fluid">
+        {% block body %}{% endblock %}
+    </div>
+    </body>
+</html>
