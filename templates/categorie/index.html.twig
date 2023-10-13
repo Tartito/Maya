@@ -1,20 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategorieController!{% endblock %}
+{% block title %}Catégories{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="col-md-10 contenu-blanc">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <h1>Les <span> {{  lesCategories | length }}  </span>catégories</h1>
+        {{ include('messages.html.twig') }}
+        <div class="contenu">
+            <table class="table table-striped table-advance table-hover">
+                <thead>
+                <tr class="bg-entete">
+                    <th>Identifiant</th>
+                    <th>Libellé</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/Maya/src/Controller/CategorieController.php'|file_link(0) }}">src/Controller/CategorieController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/Maya/templates/categorie/index.html.twig'|file_link(0) }}">templates/categorie/index.html.twig</a></code></li>
-    </ul>
-</div>
+                <!-- formulaire pour ajouter une nouvelle catégorie-->
+                <tr>
+                    {{ form_start(formCreation) }}
+                        <td class="col-md-1">Nouveau</td>
+                        <td class="col-md-6">{{ form_widget(formCreation.libelle) }}  {{ form_errors(formCreation.libelle) }}</td>
+                        <td class="col-md-3"><button class="btn btn-primary btn-sm" type="submit" formaction="{{ path('app_categorie_ajouter') }}" title="Enregistrer nouvelle catégorie"><i class="fa fa-save"></i> Enregistrer</button>
+                            <button class="btn btn-info btn-sm" type="reset" title="Effacer la saisie"><i class="fa fa-eraser"></i> Annuler </button></td>
+                        {# Ceci va générer le champ CSRF #}
+                        {{ form_rest(formCreation) }}
+                    {{ form_end(formCreation) }}
+                </tr>
+
+                 {% for key, categorie in lesCategories %}
+                    <tr>
+                     {% if categorie.id != idCategorieModif %}
+
+                            <td>{{ categorie.id }}</td>
+                            <td>{{ categorie.libelle }}</td>
+                            <!-- formulaire pour demander la modification ou la suppression -->
+                            <td><form>
+                                    <button type="submit" class="btn btn-primary btn-sm" formaction ="{{ path('app_categorie_demandermodification', {'id' : categorie.id }) }}" title="Modifier"><i class="fa fa-pencil"></i> Modifier</button>
+                                    <button class="btn btn-danger btn-sm" type="submit" formaction="{{ path('app_categorie_supprimer', {'id' : categorie.id }) }}" title="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');"><i class="fa fa-trash-o "></i> Supprimer</button>
+                                <input type = "hidden" name="_token" value="{{ csrf_token('action-item' ~ categorie.id) }}">     {#  ~     pour concaténer des chaines en twig #}
+                                </form>
+                            </td>
+
+
+                                   {% else %}
+
+           <!-- formulaire pour modifier une catégorie -->
+           {{ form_start(formModification) }}
+           <td>{{ categorie.id }}</td>
+           <td>{{ form_widget(formModification.libelle) }} {{ form_errors(formModification.libelle) }}</td>
+           <td class="col-md-4">
+               <button class="btn btn-primary btn-sm" type="submit" formaction="{{ path('app_categorie_modifier', {'id' : categorie.id }) }}"  title="Enregistrer"><i class="fa fa-save"></i> Enregistrer</button>
+               <button class="btn btn-info btn-sm" type="reset" title="Effacer la saisie"><i class="fa fa-eraser"></i> Effacer</button>
+               <button class="btn btn-warning btn-sm" type="submit" formaction="{{ path('app_categorie') }}" title="Annuler"><i class="fa fa-undo"></i> Annuler</button>
+           </td>
+           {# Ceci va générer le champ CSRF #}
+           {{ form_rest(formModification) }}
+           {{ form_end(formModification) }}
+       {% endif %}
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div> <!--fin div contenu-->
+    </div> <!--fin div col-md-10-->
 {% endblock %}
+
